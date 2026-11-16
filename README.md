@@ -19,6 +19,12 @@ while all the logic stays in Python where it can be tested.
 
 A mock subscriber/usage API is included, so everything runs locally with no external systems.
 
+> **Companion project: [test-matrix-generator](https://github.com/Brandonicus-Rex/test-matrix-generator)**
+> designs the tests this runner executes. From a catalog of plans, features and rules it
+> generates the smallest practical set of cases covering every pair (or triple) of values,
+> with a custom pairwise algorithm, written as a workbook this runner runs as-is.
+> On the sample catalog: 10 pairwise tests instead of 63 exhaustive, with 100% pair coverage.
+
 ## Features
 
 - One test case per row; columns are found by header name, so order doesn't matter
@@ -103,6 +109,29 @@ python -m runner.cli samples/regression_tests.xlsx --output reports/run.xlsx -v
 ```
 
 To rebuild the sample workbook: `python -m samples.make_sample`.
+
+## Generating test sheets
+
+Instead of writing rows by hand, you can generate them with
+[test-matrix-generator](https://github.com/Brandonicus-Rex/test-matrix-generator):
+
+```bash
+# in the test-matrix-generator folder
+python -m matrixgen samples/telecom_catalog.yaml -o pairwise_tests.xlsx
+
+# back in this folder, with the mock API running
+python -m runner.cli path/to/pairwise_tests.xlsx
+```
+
+Highlights of the generator:
+
+- **Pairwise and 3-wise coverage** from a custom greedy (AETG-style) algorithm, not a library
+- **Rules** such as "IoT devices can't have voicemail" are never broken, and impossible
+  pairs are reported separately instead of counted as gaps
+- **Safe rule language** parsed without `eval()`, with typos in names or values rejected
+- **Self-contained rows**: each generated test gets setup, create, read-back and cleanup
+  rows, so rounds can be repeated against the same server
+- **Verified end to end**: its CI generates workbooks and runs them through this runner
 
 ## Run from Excel (optional)
 
