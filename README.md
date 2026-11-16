@@ -25,6 +25,10 @@ A mock subscriber/usage API is included, so everything runs locally with no exte
 > with a custom pairwise algorithm, written as a workbook this runner runs as-is.
 > On the sample catalog: 10 pairwise tests instead of 63 exhaustive, with 100% pair coverage.
 
+## Demo
+
+![Terminal demo: running the sample workbook, 28 of 28 tests passing](demo.gif)
+
 ## Features
 
 - One test case per row; columns are found by header name, so order doesn't matter
