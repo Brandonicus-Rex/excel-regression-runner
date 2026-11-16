@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+.pytest_cache/
+reports/
+*.log
+# Run output (the sample workbook itself is committed)
+*_results.xlsx
+~$*.xls*
